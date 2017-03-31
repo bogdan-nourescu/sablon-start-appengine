@@ -22,7 +22,7 @@
 			<!--]]>
         </app.configSettings>
         <app.web.path>webapp/</app.web.path>
-        <app.appid>app-id</app.appid>
+        <app.appid>mso-converter</app.appid>
         <app.finalName>app</app.finalName>
         <gulp.environment>development</gulp.environment>
         <plugin.appengine.version>1.9.31</plugin.appengine.version>
@@ -107,9 +107,44 @@
                     </jvmFlags>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>ro.appengine</groupId>
+                <artifactId>web-generator-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <executions>
+                    <execution>
+                        <id>create_mappings</id>
+                        <goals>
+                            <goal>web_mapping</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                    <execution>
+                        <id>increment</id>
+                        <goals>
+                            <goal>increment_version</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <annotationClass>ro.raiffeisen.projectname.UrlPattern</annotationClass>
+                    <suffix>${user.name}</suffix>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
+    <pluginRepositories>
+        <pluginRepository>
+            <id>cbn-mvn</id>
+            <name>cbn-it</name>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <url>https://api.bitbucket.org/1.0/repositories/cbn-it/mvn-repo/raw/releases</url>
+        </pluginRepository>
+    </pluginRepositories>
     <profiles>
         <profile>
             <id>development</id>
